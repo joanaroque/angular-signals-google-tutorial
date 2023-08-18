@@ -71,7 +71,16 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   ],
 })
 export class CipherComponent implements OnInit {
-  constructor(private messages: MessageService, public cipher: CipherService) {}
+  constructor(private messages: MessageService, public cipher: CipherService) {
+
+    effect(() => { //! *********************************************     INSIDE ONiNIT DOESN'T WORK *******************************************
+      if (this.messages.superSecretMessage() === this.messages.solvedMessage()) {
+        var confettiCanvas = document.getElementById('confetti-canvas');
+        confetti.create()(confettiCanvas, { particleCount: 10000 });
+      }
+    });
+
+  }
 
   // Preseed the cypher with any solved values plus "a" and "n"
   ngOnInit(): void {
@@ -88,6 +97,7 @@ export class CipherComponent implements OnInit {
     }
 
     // TODO(3): Add your first effect()
+    
   }
 
   drop(event: CdkDragDrop<string, string>) {
